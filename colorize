@@ -2,6 +2,7 @@
 
 require 'optparse'
 
+$counter = 0
 $BLACK, $RED, $GREEN, $YELLOW, $BLUE, $MAGENTA, $CYAN, $WHITE = *(30..37)
 
 
@@ -13,16 +14,31 @@ def random_color
   color_code($RED + rand($WHITE - $RED))
 end
 
+def rainbow_color
+  $counter += 1
+  color_code($RED + ($counter % ($WHITE - $RED)))
+end
+
+def america_color
+  $counter += 1
+  colors = [$RED, $WHITE, $BLUE];
+  color_code(colors[$counter % colors.length])
+end
+
 def parse_options
   options = {}
   OptionParser.new do |opts|
     opts.banner = "Usage: colorize [options]"
 
-    opts.on("--style STYLE", [:random],
-            "Specify coloring style (random)") do |style|
+    opts.on("--style STYLE", [:random, :rainbow, :america],
+            "Specify coloring style (random, rainbow, america)") do |style|
       case style
       when :random then
         options[:next] = lambda { random_color }
+      when :rainbow then
+        options[:next] = lambda { rainbow_color }
+      when :america then
+        options[:next] = lambda { america_color }
       end
     end
   end.parse!

@@ -1,5 +1,7 @@
 #!/usr/bin/env ruby
 
+require 'optparse'
+
 $BLACK, $RED, $GREEN, $YELLOW, $BLUE, $MAGENTA, $CYAN, $WHITE = *(30..37)
 
 
@@ -11,11 +13,27 @@ def random_color
   color_code($RED + rand($WHITE - $RED))
 end
 
+def parse_options
+  options = {}
+  OptionParser.new do |opts|
+    opts.banner = "Usage: colorize [options]"
+
+    opts.on("--style STYLE", [:random],
+            "Specify coloring style (random)") do |style|
+      case style
+      when :random then
+        options[:next] = lambda { random_color }
+      end
+    end
+  end.parse!
+  options
+end
+
 def main
-  $next_color = lambda { random_color }
+  options = parse_options
   STDIN.each_line do |line|
     line.each_char do |c|
-      print $next_color.call unless /\s/ =~ c
+      print options[:next].call unless /\s/ =~ c
       print c
     end
     print color_code($WHITE)

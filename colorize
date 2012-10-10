@@ -9,10 +9,17 @@ def random_color
   color_code(31 + rand(6))
 end
 
-STDIN.each_line do |line|
-  line.each_char do |c|
-    print random_color unless /\s/ =~ c
-    print c
+def main
+  $next_color = lambda { random_color }
+  STDIN.each_line do |line|
+    line.each_char do |c|
+      print $next_color.call unless /\s/ =~ c
+      print c
+    end
+    print color_code(37)
   end
-  print color_code(37)
+end
+
+if __FILE__ == $PROGRAM_NAME
+  main
 end

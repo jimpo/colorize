@@ -1,12 +1,14 @@
 #!/usr/bin/env ruby
 
+$BLACK, $RED, $GREEN, $YELLOW, $BLUE, $MAGENTA, $CYAN, $WHITE = *(30..37)
+
 
 def color_code c
   "%c[%d;%d;%dm" % [0x1B, 0, c, 40]
 end
 
 def random_color
-  color_code(31 + rand(6))
+  color_code($RED + rand($WHITE - $RED))
 end
 
 def main
@@ -16,7 +18,7 @@ def main
       print $next_color.call unless /\s/ =~ c
       print c
     end
-    print color_code(37)
+    print color_code($WHITE)
   end
 end
 

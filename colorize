@@ -1,0 +1,10 @@
+#!/usr/bin/env ruby
+
+
+def colorize c
+  "%c[%d;%d;%dm%c" % [0x1B, 0, 31 + rand(6), 40, c]
+end
+
+STDIN.each_char do |c|
+  print (if /\s/ =~ c then c else colorize(c[0]) end)
+end

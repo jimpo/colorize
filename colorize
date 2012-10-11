@@ -30,6 +30,7 @@ def parse_options
   OptionParser.new do |opts|
     opts.banner = "Usage: colorize [options]"
 
+    options[:next] = lambda { random_color }
     opts.on("--style STYLE", [:random, :rainbow, :america],
             "Specify coloring style (random, rainbow, america)") do |style|
       case style

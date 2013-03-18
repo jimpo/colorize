@@ -7,7 +7,7 @@ $BLACK, $RED, $GREEN, $YELLOW, $BLUE, $MAGENTA, $CYAN, $WHITE = *(30..37)
 
 
 def color_code c
-  "%c[%d;%d;%dm" % [0x1B, 0, c, 40]
+  "%c[%dm" % [0x1B, c]
 end
 
 def random_color

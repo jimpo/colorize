@@ -33,14 +33,7 @@ def parse_options
     options[:next] = lambda { random_color }
     opts.on("--style STYLE", [:random, :rainbow, :america],
             "Specify coloring style (random, rainbow, america)") do |style|
-      case style
-      when :random then
-        options[:next] = lambda { random_color }
-      when :rainbow then
-        options[:next] = lambda { rainbow_color }
-      when :america then
-        options[:next] = lambda { america_color }
-      end
+      options[:next] = lambda { send "#{style}_color" }
     end
   end.parse!
   options
